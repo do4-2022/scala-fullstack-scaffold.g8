@@ -1,13 +1,24 @@
+package livechart
 import com.raquo.laminar.api.L.{*, given}
 import org.scalajs.dom
+import org.scalajs.dom._
+import scala.scalajs.js.Thenable.Implicits._
+import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+import scala.util.{Failure, Success}
 
+import org.scalajs.dom._
+import scala.scalajs.js.JSON
+import scala.scalajs.js.Thenable.Implicits._
+import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+import scala.util.{Failure, Success}
+
+import scala.scalajs.js
+
+case class TodoItem(id: Int, text: String, completed: Boolean)
 
 // from https://laminar.dev/examples/todomvc
 
 object TodoMvcApp {
-
-
-  case class TodoItem(id: Int, text: String, completed: Boolean)
 
   sealed abstract class Filter(
       val name: String,
@@ -34,6 +45,7 @@ object TodoMvcApp {
 
   case object DeleteCompleted extends Command
 
+  case object Reload extends Command
 
   // state
 
@@ -44,27 +56,75 @@ object TodoMvcApp {
   private var lastId = 1 // just for auto-incrementing IDs
 
   private val commandObserver = Observer[Command] {
+    case Reload =>
+      getTodos().onComplete {
+        case Success(items) =>
+          itemsVar.set(items.toList)
+        case Failure(exception) =>
+          println(s"Failed to load todos: $exception")
+      }
+
     case Create(itemText) =>
       lastId += 1
       if (filterVar.now() == ShowCompleted)
         filterVar.set(ShowAll)
-      itemsVar.update(
-        _ :+ TodoItem(id = lastId, text = itemText, completed = false)
-      )
+
+      createTodo(
+        TodoItem(id = 0, text = itemText, completed = false)
+      ).onComplete {
+        case Success(item) =>
+          itemsVar.update(_ :+ item)
+        case Failure(exception) =>
+          println(s"Failed to create todo: $exception")
+      }
     case UpdateText(itemId, text) =>
-      itemsVar.update(
-        _.map(item => if (item.id == itemId) item.copy(text = text) else item)
-      )
+      val item = itemsVar.now().find(_.id == itemId).get
+
+      setTodo(
+        TodoItem(id = itemId, text = text, item.completed)
+      ).onComplete {
+        case Success(returnedItem) =>
+          itemsVar.update(
+            _.map(item =>
+              if (item.id == returnedItem.id) returnedItem else item
+            )
+          )
+        case Failure(exception) =>
+          println(s"Failed to update todo: $exception")
+      }
+
     case UpdateCompleted(itemId, completed) =>
-      itemsVar.update(
-        _.map(item =>
-          if (item.id == itemId) item.copy(completed = completed) else item
-        )
-      )
+      val item = itemsVar.now().find(_.id == itemId).get
+
+      setTodo(
+        item.copy(completed = completed)
+      ).onComplete {
+        case Success(returnedItem) =>
+          itemsVar.update(
+            _.map(item =>
+              if (item.id == returnedItem.id) returnedItem else item
+            )
+          )
+        case Failure(exception) =>
+          println(s"Failed to update todo: $exception")
+      }
+
     case Delete(itemId) =>
-      itemsVar.update(_.filterNot(_.id == itemId))
+      deleteTodo(
+        itemId
+      ).onComplete {
+        case Success(_) =>
+          itemsVar.update(_.filterNot(_.id == itemId))
+        case Failure(exception) =>
+          println(s"Failed to delete todo: $exception")
+      }
     case DeleteCompleted =>
-      itemsVar.update(_.filterNot(_.completed))
+      deleteCompletedTodos().onComplete {
+        case Success(_) =>
+          itemsVar.update(_.filterNot(_.completed))
+        case Failure(exception) =>
+          println(s"Failed to delete completed todos: $exception")
+      }
   }
 
   // --- Views ---
