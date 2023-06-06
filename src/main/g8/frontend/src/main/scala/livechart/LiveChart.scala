@@ -138,6 +138,14 @@ object TodoMvcApp {
       div(
         cls("header"),
         h1("todos"),
+        div(
+          cls("top-bar"),
+          button(
+            "reload",
+            cls("reload"),
+            onClick.mapTo(Reload) --> commandObserver
+          )
+        ),
         renderNewTodoInput
       ),
       div(
