@@ -1,0 +1,9 @@
+{
+  "todos": [
+    {
+      "id": 0,
+      "text": "Use Redux",
+      "completed": true
+    }
+  ]
+}

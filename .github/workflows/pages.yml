@@ -1,0 +1,44 @@
+name: Build and deploy to GitHub Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        name: checkout documentation folder
+        with:
+          sparse-checkout: |
+            documentation
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: documentation/package-lock.json
+      - run: cd documentation && npm ci
+        name: npm ci
+      - run: cd documentation && npm run build
+        name: npm build
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./documentation/dist
+ 
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v2
+        id: deployment
