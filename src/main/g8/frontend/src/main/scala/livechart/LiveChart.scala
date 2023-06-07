@@ -1,5 +1,5 @@
 package livechart
-import com.raquo.laminar.api.L.{*, given}
+import com.raquo.laminar.api.L.{given, *}
 import org.scalajs.dom
 import org.scalajs.dom._
 import scala.scalajs.js.Thenable.Implicits._
@@ -11,8 +11,9 @@ import scala.scalajs.js.JSON
 import scala.scalajs.js.Thenable.Implicits._
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 import scala.util.{Failure, Success}
-
 import scala.scalajs.js
+import livechart.TodoMvcApp.Reload
+import livechart.TodoMvcApp.loadTodos
 
 case class TodoItem(id: Int, text: String, completed: Boolean)
 
@@ -60,17 +61,20 @@ object TodoMvcApp {
       getTodos().onComplete {
         case Success(items) =>
           itemsVar.set(items.toList)
+          lastId = items.map(_.id).max
         case Failure(exception) =>
           println(s"Failed to load todos: $exception")
       }
 
     case Create(itemText) =>
+      // currently incrementing lastId for testing purposes
       lastId += 1
+
       if (filterVar.now() == ShowCompleted)
         filterVar.set(ShowAll)
 
       createTodo(
-        TodoItem(id = 0, text = itemText, completed = false)
+        TodoItem(id = lastId, text = itemText, completed = false)
       ).onComplete {
         case Success(item) =>
           itemsVar.update(_ :+ item)
@@ -275,11 +279,14 @@ object TodoMvcApp {
 
   private val onEnterPress =
     onKeyPress.filter(_.keyCode == dom.ext.KeyCode.Enter)
+
+  def loadTodos: Unit = {
+    commandObserver.onNext(Reload)
+  }
 }
 
 @main def main(): Unit = {
-  import scala.scalajs.js.annotation.JSExportTopLevel
-  import org.scalajs.dom.document
   val containerNode = dom.document.querySelector("#app")
   render(containerNode, TodoMvcApp.node)
+  loadTodos
 }

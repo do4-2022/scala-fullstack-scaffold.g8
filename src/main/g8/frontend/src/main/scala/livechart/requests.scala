@@ -1,21 +1,28 @@
 package livechart
 import org.scalajs.dom._
-import scala.scalajs.js.JSON
 import scala.scalajs.js.Thenable.Implicits._
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 import scala.util.{Failure, Success}
 import scala.scalajs.js
 import io.circe.syntax._
 import io.circe.generic.auto._
-import com.raquo.laminar.api.L.{*, given}
+import com.raquo.laminar.api.L.{given, *}
 import scala.concurrent.Future
 import org.scalajs.dom.RequestInit
+import scala.scalajs.js.JSON
+import io.circe._, io.circe.generic.auto._, io.circe.parser._, io.circe.syntax._
 
-def getTodos(): Future[js.Array[TodoItem]] = {
-  fetch("/api/todos")
+val API_URL = "http://localhost:3000"
+
+def getTodos(): Future[List[TodoItem]] = {
+  fetch(s"${API_URL}/api/todos")
     .flatMap(_.text().toFuture)
-    .map(JSON.parse(_))
-    .map(_.asInstanceOf[js.Array[TodoItem]])
+    .flatMap(json => {
+      decode[List[TodoItem]](json) match {
+        case Right(value: List[TodoItem]) => Future.successful(value)
+        case Left(error)                  => Future.failed(error)
+      }
+    })
 }
 
 def createTodo(item: TodoItem): Future[TodoItem] = {
@@ -30,10 +37,14 @@ def createTodo(item: TodoItem): Future[TodoItem] = {
   val requestInit =
     options.asInstanceOf[RequestInit]
 
-  fetch("/api/todos", requestInit)
+  fetch(s"${API_URL}/api/todos", requestInit)
     .flatMap(_.text().toFuture)
-    .map(JSON.parse(_))
-    .map(_.asInstanceOf[TodoItem])
+    .flatMap(json => {
+      decode[TodoItem](json) match {
+        case Right(value: TodoItem) => Future.successful(value)
+        case Left(error)            => Future.failed(error)
+      }
+    })
 }
 
 def setTodo(item: TodoItem): Future[TodoItem] = {
@@ -47,10 +58,14 @@ def setTodo(item: TodoItem): Future[TodoItem] = {
   val requestInit =
     options.asInstanceOf[RequestInit]
 
-  fetch(s"/api/todos/${item.id}", requestInit)
+  fetch(s"${API_URL}/api/todos/${item.id}", requestInit)
     .flatMap(_.text().toFuture)
-    .map(JSON.parse(_))
-    .map(_.asInstanceOf[TodoItem])
+    .flatMap(json => {
+      decode[TodoItem](json) match {
+        case Right(value: TodoItem) => Future.successful(value)
+        case Left(error)            => Future.failed(error)
+      }
+    })
 }
 
 def deleteTodo(id: Int): Future[TodoItem] = {
@@ -60,21 +75,29 @@ def deleteTodo(id: Int): Future[TodoItem] = {
   val requestInit =
     options.asInstanceOf[RequestInit]
 
-  fetch(s"/api/todos/${id}", requestInit)
+  fetch(s"${API_URL}/api/todos/${id}", requestInit)
     .flatMap(_.text().toFuture)
-    .map(JSON.parse(_))
-    .map(_.asInstanceOf[TodoItem])
+    .flatMap(json => {
+      decode[TodoItem](json) match {
+        case Right(value: TodoItem) => Future.successful(value)
+        case Left(error)            => Future.failed(error)
+      }
+    })
 }
 
-def deleteCompletedTodos(): Future[js.Array[TodoItem]] = {
+def deleteCompletedTodos(): Future[List[TodoItem]] = {
   val options = js.Dynamic.literal(
     method = "DELETE"
   )
   val requestInit =
     options.asInstanceOf[RequestInit]
 
-  fetch(s"/api/todos/completed", requestInit)
+  fetch(s"${API_URL}/api/todos/completed", requestInit)
     .flatMap(_.text().toFuture)
-    .map(JSON.parse(_))
-    .map(_.asInstanceOf[js.Array[TodoItem]])
+    .flatMap(json => {
+      decode[List[TodoItem]](json) match {
+        case Right(value: List[TodoItem]) => Future.successful(value)
+        case Left(error)                  => Future.failed(error)
+      }
+    })
 }
