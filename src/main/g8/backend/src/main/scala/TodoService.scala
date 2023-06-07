@@ -1,23 +1,35 @@
 package todo
 
+import zio.Task
 import zio._
 
+import org.mongodb.scala._
+import org.mongodb.scala.model.Filters._
+import org.mongodb.scala.model.Updates._
+import java.util.concurrent.FutureTask
+
 object TodoService {
-
-     private var todos: List[Todo] = List(
-        Todo(1, "Faire les courses", completed = false),
-        Todo(2, "Terminer le projet", completed = false),
-        Todo(3, "Apprendre Scala", completed = true)
+  private val todosCollection: MongoCollection[Todo] = {
+    val client = MongoDBClient.createClient(
+      MongoDBConfig("mongodb://root:root@localhost:27017", "todoapp")
     )
+    val database = client.getDatabase("todoapp")
 
-    def getTodos(): Task[List[Todo]] = ???
+    database.getCollection[Todo]("todos")
+  }
 
-    def getTodoById(id: Int): Task[Option[Todo]] = ???
+  def getTodos(): Task[List[Todo]] = ???
+//     ZIO.fromFuture(_ => todosCollection.find().toFuture())
 
-    def createTodo(): Task[Todo] = ???
+  def getTodoById(id: Int): Task[Option[Todo]] =
+    ZIO.fromFuture(_ => todosCollection.find(equal("id", id)).headOption())
 
-    def updateTodo( todoId : Int, todo : Todo): Task[Todo] = ???
+  def createTodo(): Task[Todo] =
+    ???
 
-    def deleteTodoById(id: Int): Task[Unit] = ???
-    
+  def updateTodo(todoId: Int, todo: Todo): Task[Todo] =
+    ???
+
+  def deleteTodoById(id: Int): Task[Unit] =
+    ???
 }
