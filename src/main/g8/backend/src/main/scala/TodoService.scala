@@ -3,23 +3,16 @@ package todo
 import zio.Task
 import zio._
 
-import org.mongodb.scala._
 import org.mongodb.scala.model.Filters._
 import org.mongodb.scala.model.Updates._
-import java.util.concurrent.FutureTask
+
+import org.mongodb.scala.MongoCollection
 
 object TodoService {
-  private val todosCollection: MongoCollection[Todo] = {
-    val client = MongoDBClient.createClient(
-      MongoDBConfig("mongodb://root:root@localhost:27018", "todoapp")
-    )
-    val database = client.getDatabase("todoapp")
-
-    database.getCollection[Todo]("todos")
-  }
+  private val todosCollection: MongoCollection[Todo] = DB.todosCollection
 
   def getTodos(): Task[Seq[Todo]] =
-    ZIO.fromFuture(_ => todosCollection.find().toFuture()).debug("getTodos")
+    ZIO.fromFuture(_ => todosCollection.find().toFuture())
 
   def getTodoById(id: Int): Task[Option[Todo]] =
     ZIO.fromFuture(_ => todosCollection.find(equal("id", id)).headOption())
