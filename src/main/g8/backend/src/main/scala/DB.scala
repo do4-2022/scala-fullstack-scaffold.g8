@@ -10,9 +10,9 @@ import org.mongodb.scala.MongoClient.DEFAULT_CODEC_REGISTRY
 import org.mongodb.scala.bson.codecs.Macros._
 
 object DB {
-  // Définissez votre URL de connexion MongoDB
-  private val connectionString: String =
-    "mongodb://root:root@localhost:27018"
+  private val databaseURL: String =
+    Option(System.getenv("MONGO_URL"))
+      .getOrElse("mongodb://username:password@localhost:27017")
 
   private val customCodecs: CodecRegistry =
     fromProviders(classOf[Todo])
@@ -21,7 +21,7 @@ object DB {
     fromRegistries(customCodecs, DEFAULT_CODEC_REGISTRY)
 
   private val database =
-    MongoClient(connectionString)
+    MongoClient(databaseURL)
       .getDatabase("todoapp")
       .withCodecRegistry(codecRegistry)
 
