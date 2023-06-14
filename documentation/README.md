@@ -1,23 +1,20 @@
-# Nextra Docs Template 
+# Documentation Scala Scaffold
 
-This is a template for creating documentation with [Nextra](https://nextra.site).
+This is the documentation directory for the [ Scala Fullstack Scaffold project](https://github.com/do4-2022/scala-fullstack-scaffold).
 
-[**Live Demo →**](https://nextra-docs-template.vercel.app)
+The generated documentation is available at [scala-fullstack-scaffolg.github.io](https://scala-fullstack-scaffolg.github.io)
 
-[![](.github/screenshot.png)](https://nextra-docs-template.vercel.app)
+## Run it locally
 
-## Quick Start
+To see the documentation locally, launch the following:
 
-Click the button to clone this repository and deploy it on Vercel:
+```bash
+# Install dependencies
+npm install
+# Launch the program in dev mode
+npm run dev
+```
 
-[![](https://vercel.com/button)](https://vercel.com/new/clone?s=https%3A%2F%2Fgithub.com%2Fshuding%2Fnextra-docs-template&showOptionalTeamCreation=false)
+## Deploy it
 
-## Local Development
-
-First, run `pnpm i` to install the dependencies.
-
-Then, run `pnpm dev` to start the development server and visit localhost:3000.
-
-## License
-
-This project is licensed under the MIT License.
+The documentation can be deployed with [Vercel](https://vercel.com/docs/concepts/deployments/overview) or [GitHub Pages](https://pages.github.com/).
