@@ -11,15 +11,15 @@ import java.util.concurrent.FutureTask
 object TodoService {
   private val todosCollection: MongoCollection[Todo] = {
     val client = MongoDBClient.createClient(
-      MongoDBConfig("mongodb://root:root@localhost:27017", "todoapp")
+      MongoDBConfig("mongodb://root:root@localhost:27018", "todoapp")
     )
     val database = client.getDatabase("todoapp")
 
     database.getCollection[Todo]("todos")
   }
 
-  def getTodos(): Task[List[Todo]] = ???
-//     ZIO.fromFuture(_ => todosCollection.find().toFuture())
+  def getTodos(): Task[Seq[Todo]] =
+    ZIO.fromFuture(_ => todosCollection.find().toFuture()).debug("getTodos")
 
   def getTodoById(id: Int): Task[Option[Todo]] =
     ZIO.fromFuture(_ => todosCollection.find(equal("id", id)).headOption())

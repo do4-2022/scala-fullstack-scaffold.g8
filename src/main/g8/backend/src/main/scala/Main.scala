@@ -14,7 +14,7 @@ object TodoApp extends ZIOAppDefault {
   private val config = Server.Config.default.port(port)
   private val configLayer = ZLayer.succeed(config)
 
-  printf("Server listening on http://0.0.0.0:%d\n", port)
+  printf("Server listening on http://localhost:%d\n", port)
   override val run =
     Server.serve(TodoController.routes).provide(configLayer, Server.live)
 }
