@@ -9,6 +9,7 @@ import scala.scalajs.js
 import components.{newTodoInput, statusBar, hideIfNoItems, todoItem}
 import livechart.state.{itemsVar, filterVar}
 import livechart.events.{Reload, loadTodos, commandObserver}
+import livechart.components.errorMessage
 
 // from https://laminar.dev/examples/todomvc
 
@@ -23,6 +24,7 @@ lazy val appNode: HtmlElement = {
     div(
       cls("header"),
       h1("todos"),
+      errorMessage(),
       div(
         cls("top-bar"),
         button(
