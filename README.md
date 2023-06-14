@@ -50,52 +50,42 @@
     - [:dart: Features](#dart-features)
   - [:toolbox: Getting Started](#toolbox-getting-started)
     - [:bangbang: Prerequisites](#bangbang-prerequisites)
-    - [:test\_tube: Running Tests](#test_tube-running-tests)
     - [:running: Run Locally](#running-run-locally)
     - [:rocket: Build](#rocket-build)
-    - [debug async with tokio console](#debug-async-with-tokio-console)
   - [:wave: Contributing](#wave-contributing)
   - [:warning: License](#warning-license)
   - [:handshake: Authors](#handshake-authors)
 
-  
-
 <!-- About the Project -->
 ## :star2: About the Project
 
-Aster is designed to efficiently collect metrics from a REST API, transform them into chargeable data, expose the API and SDKs, create invoices and bills, and generate alerts based on specified rules.
-
+Scala Fullstack Scaffold is a projects aims to start quickly a Frontend and a Backend application. It uses [ZIO HTTP](https://zio.dev/guides/quickstarts/restful-webservice/) for the backend and and [ScalaJS](https://www.scala-js.org/) for the frontend application.
 
 <!-- Features -->
 ### :dart: Features
 
-- Collect metrics from a REST API
-- Transform metrics into chargeable
-- Expose the API and SDKs
-- Create invoices and bills
-- Alerts based on rules
-
+- Create a Template with some customisation:
+  - Choose a name for you're project
+  - Choose between MongoDB or Postgres backend's database
+- Expose a RESTful API
+- Display a Frontend application
 
 <!-- Getting Started -->
-## 	:toolbox: Getting Started
+## :toolbox: Getting Started
 
 <!-- Prerequisites -->
 ### :bangbang: Prerequisites
 
-This project uses Cargo as RUST package manager
+- [Scala >3](https://scala-lang.org/download/3.3.0.html) for the Backend
+- [Node 18](https://nodejs.org/dist/v18.16.0/node-v18.16.0-linux-x64.tar.xz) for the Frontend application and the documentation
 
 ```bash
-curl https://sh.rustup.rs -sSf | sh
-```
-You should install `sqlx-cli` to run Postgres migration before the project start
+# Install Scala 3.3.0
+curl https://github.com/lampepfl/dotty/releases/download/3.3.0/scala3-3.3.0.tar.gz -sSf | sh
 
-<!-- Running Tests -->
-### :test_tube: Running Tests
+# Install Node 18.16.0
+curl https://nodejs.org/dist/v18.16.0/node-v18.16.0-linux-x64.tar.xz -sSf | sh
 
-To run tests, run the following command
-
-```bash
-  cargo test --workspace --bins --lib
 ```
 
 <!-- Run Locally -->
@@ -110,40 +100,40 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd aster
+  cd scala-fullstack-scaffold
 ```
 
-Run the application in debug mode
+Run the `backend` :
 
 ```bash
-  # Make the script executable
-  chmod +x ./debug-aster.sh
-  ./debug-aster.sh
+  cd backend
+  sbt run
+```
+
+Run the `frontend` :
+
+```bash
+  cd frontend
+  sbt run
+```
+
+Run the `documentation` :
+
+```bash
+  cd frontend
+  npm run dev
+  sbt:livechart> ~fastLinkJS
 ```
 
 <!-- Build -->
 ### :rocket: Build
 
-Build Aster with Cargo
+Build This Fullstack with NPM
 
 ```bash
-  cargo build
+  cd documentation
+  npm run build
 ```
-
-
-### debug async with tokio console
-
-see [tokio-console](https://github.com/tokio-rs/console)
-
-```sh
-./debug-aster.sh
-```
-
-then open the tokio console
-```sh
-tokio-console http://localhost:5555
-```
-
 
 <!-- Contributing -->
 ## :wave: Contributing
@@ -152,24 +142,23 @@ tokio-console http://localhost:5555
   <img src="https://contrib.rocks/image?repo=do4-2022/scala-fullstack-scaffold" />
 </a>
 
-
 Contributions are always welcome!
 
 See `CONTRIBUTING.md` for ways to get started.
 
-
-
 <!-- License -->
 ## :warning: License
 
-Distributed under the TODO License. See `LICENSE.md` for more information.
-
+Distributed under the mit License. See `LICENSE.md` for more information.
 
 <!-- Authors -->
 ## :handshake: Authors
 
-This project was developed by the Polytech DO teams in June 2023. 
+This project was developed by some DO students at Polytech Montpellier in June 2023:
+
+- [Nils Ponsard](https://github.com/nponsard)(Frontend)
+- [Esteban Barron](https://github.com/EstebanBAR0N)(Backend)
+- [Maxime Pizzolito](https://github.com/Maxtho8)(Backend)
+- [Arsène Fougerouse](https://github.com/GridexX)(Documentation)
 
 Project Link: [https://github.com/do4-2022/scala-fullstack-scaffold](https://github.com/do4-2022/scala-fullstack-scaffold)
-
-
