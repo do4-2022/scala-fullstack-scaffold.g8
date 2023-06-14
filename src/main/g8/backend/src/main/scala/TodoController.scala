@@ -12,43 +12,56 @@ object TodoController {
   implicit val todosEncoder: JsonEncoder[List[Todo]] =
     DeriveJsonEncoder.gen[List[Todo]]
 
-  val routes: HttpApp[Any, Nothing] = Http.collect[Request] {
-    case Method.GET -> BasePath => {
-      Response.text("TODO: get all todos")
-      // TodoService.getTodos().map(_.toJson).map(Response.text(_))
-    }
-    case Method.GET -> BasePath / id => {
-      if (id.forall(_.isDigit)) {
-        // Response.text("TODO: get a todo by id")
+  val routes: Http[Any, Nothing, Request, Response] =
+    Http.collectZIO[Request] {
+      case Method.GET -> BasePath => {
         TodoService
-          .getTodoById(id.toInt)
+          .getTodos()
           .map(_.toJson)
           .map(Response.text(_))
           .orElse(
-            Response.fromHttpError(
-              HttpError.NotFound(s"Todo with ID $id not found")
+            ZIO.succeed(
+              Response.fromHttpError(
+                HttpError.NotFound("No todos found")
+              )
             )
           )
-      } else {
-        Response.fromHttpError(HttpError.BadRequest())
+      }
+      case Method.GET -> BasePath / id => {
+        if (id.forall(_.isDigit)) {
+          TodoService
+            .getTodoById(id.toInt)
+            .map(_.toJson)
+            .map(Response.text(_))
+            .orElse(
+              ZIO.succeed(
+                Response.fromHttpError(
+                  HttpError.NotFound(s"Todo with ID $id not found")
+                )
+              )
+            )
+        } else {
+          ZIO.succeed(
+            Response.fromHttpError(HttpError.BadRequest("Invalid ID format"))
+          )
+        }
+      }
+      case Method.POST -> BasePath => {
+        ZIO.succeed(Response.text("TODO: create a todo"))
+      }
+      case Method.PUT -> BasePath / id => {
+        if (id.forall(_.isDigit)) {
+          ZIO.succeed(Response.text("TODO: update a todo by id"))
+        } else {
+          ZIO.succeed(Response.fromHttpError(HttpError.BadRequest()))
+        }
+      }
+      case Method.DELETE -> BasePath / id => {
+        if (id.forall(_.isDigit)) {
+          ZIO.succeed(Response.text("TODO: delete a todo by id"))
+        } else {
+          ZIO.succeed(Response.fromHttpError(HttpError.BadRequest()))
+        }
       }
     }
-    case Method.POST -> BasePath => {
-      Response.text("TODO: create a todo")
-    }
-    case Method.PUT -> BasePath / id => {
-      if (id.forall(_.isDigit)) {
-        Response.text("TODO: update a todo by id")
-      } else {
-        Response.fromHttpError(HttpError.BadRequest())
-      }
-    }
-    case Method.DELETE -> BasePath / id => {
-      if (id.forall(_.isDigit)) {
-        Response.text("TODO: delete a todo by id")
-      } else {
-        Response.fromHttpError(HttpError.BadRequest())
-      }
-    }
-  }
 }
