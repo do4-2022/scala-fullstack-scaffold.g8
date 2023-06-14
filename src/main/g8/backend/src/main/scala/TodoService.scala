@@ -24,5 +24,8 @@ object TodoService {
     ???
 
   def deleteTodoById(id: Int): Task[Unit] =
-    ???
+    ZIO
+      .fromFuture(_ => todosCollection.deleteOne(equal("id", id)).toFuture())
+      .unit
+
 }
