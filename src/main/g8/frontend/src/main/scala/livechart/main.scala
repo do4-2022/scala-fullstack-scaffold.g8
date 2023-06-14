@@ -10,10 +10,9 @@ import components.{newTodoInput, statusBar, hideIfNoItems, todoItem}
 import livechart.state.{itemsVar, filterVar}
 import livechart.events.{Reload, loadTodos, commandObserver}
 import livechart.components.errorMessage
+import livechart.components.header
 
 // from https://laminar.dev/examples/todomvc
-
-// --- Views ---
 
 lazy val appNode: HtmlElement = {
   val todoItemsSignal = itemsVar.signal
@@ -21,20 +20,7 @@ lazy val appNode: HtmlElement = {
     .mapN(_ filter _.passes)
   div(
     cls("todoapp"),
-    div(
-      cls("header"),
-      h1("todos"),
-      errorMessage(),
-      div(
-        cls("top-bar"),
-        button(
-          "reload",
-          cls("reload"),
-          onClick.mapTo(Reload) --> commandObserver
-        )
-      ),
-      newTodoInput
-    ),
+    header(),
     div(
       hideIfNoItems,
       cls("main"),
