@@ -1,2 +1,3 @@
-import './style.css'
-import 'scalajs:main.js'
+import './env';
+import './style.css';
+import 'scalajs:main.js';

@@ -11,8 +11,18 @@ import scala.concurrent.Future
 import org.scalajs.dom.RequestInit
 import scala.scalajs.js.JSON
 import io.circe._, io.circe.generic.auto._, io.circe.parser._, io.circe.syntax._
+import scala.scalajs.js.annotation.JSImport
 
-val API_URL = "http://localhost:3000"
+val env_api_url = js.Dynamic.global.window.VITE_API_URL
+
+val API_URL = {
+
+  if (env_api_url != null) {
+    env_api_url.asInstanceOf[String]
+  } else {
+    "http://localhost:3000"
+  }
+}
 
 def getTodos(): Future[List[TodoItem]] = {
   fetch(s"${API_URL}/api/todos")
