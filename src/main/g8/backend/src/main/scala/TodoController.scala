@@ -58,7 +58,16 @@ object TodoController {
       }
       case Method.DELETE -> BasePath / id => {
         if (id.forall(_.isDigit)) {
-          ZIO.succeed(Response.text("TODO: delete a todo by id"))
+          TodoService
+            .deleteTodoById(id.toInt)
+            .map(_ => Response.text(s"Task $id Deleted"))
+            .orElse(
+              ZIO.succeed(
+                Response.fromHttpError(
+                  HttpError.NotFound(s"Todo with ID $id not found")
+                )
+              )
+            )
         } else {
           ZIO.succeed(Response.fromHttpError(HttpError.BadRequest()))
         }
