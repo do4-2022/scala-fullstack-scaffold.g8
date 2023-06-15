@@ -1,3 +1,89 @@
 # About
 
-This is the about page! This page is shown on the navbar.
+This page references how is build this project and which Library are used.
+
+
+## Architecture
+
+Here's a high-level overview of the architecture:
+
+### Front-end:
+
+    **User Interface (UI):** The front-end component handles the presentation layer of the application and provides an interface for users to interact with the *TODO application*.
+
+#### ScalaJS
+
+The frontend application is build using ScalaJS.
+
+[Scala.js](https://www.scala-js.org/) is a powerful framework that harnesses the Scala and JavaScript ecosystems, 
+enabling the development of robust applications for browsers, [Node.js](https://nodejs.org/dist/v18.16.0/node-v18.16.0-linux-x64.tar.xz), and serverless environments. 
+With its strong typing, Scala.js ensures code correctness, eliminating common mistakes such as mixing 
+data types and typos in method names. It optimizes Scala code into highly efficient JavaScript,
+offering **fast compilation times** and generating compact output starting from `45kB` gzipped.
+
+Scala.js seamlessly integrates with popular JavaScript libraries like *React* and *AngularJS*, 
+providing excellent interoperability. 
+The framework also offers exceptional editor support, 
+catching typos and type-errors instantly, providing in-line documentation, 
+and facilitating effortless refactoring. Unlock the potential of *Scala* and 
+*JavaScript* with Scala.js for building performant applications with a seamless development experience.
+
+
+### Backend:
+    **Application Server:** The back-end component handles the business logic and data management of the application. It receives requests from the front-end, processes them, interacts with the database, and returns the appropriate response. 
+    
+    **API (Application Programming Interface):** The back-end exposes a set of RESTful or GraphQL APIs that the front-end can consume to perform CRUD (Create, Read, Update, Delete) operations on TODO items. The APIs handle the data validation, authentication, and authorization aspects of the application.
+    Database: A persistent storage system is needed to store the TODO items. Common choices include relational databases like MySQL, PostgreSQL, or non-relational databases like MongoDB.
+
+ZIO is used for the REST API. 
+
+#### ZIO
+
+[ZIO](https://zio.dev/) is a powerful library for Scala that provides type-safe, composable, and concurrent programming capabilities. 
+With ZIO, you can easily build **scalable applications** that outperform *Scala's Future* by a factor of `100`. 
+
+By leveraging the full power of the Scala compiler, *ZIO* enables you to catch bugs at compile time, ensuring type safety and robustness in your codebase. 
+*ZIO* simplifies the development of concurrent applications, eliminating common issues like deadlocks, race conditions, and complexity. 
+
+It allows you to write sequential code that remains consistent, whether it's executed asynchronously or synchronously. Additionally, *ZIO* promotes **resource-safe** practices, preventing resource leaks even in the face of failures. 
+
+It offers excellent testability, allowing you to inject test services into your application for fast, deterministic, and type-safe testing. *ZIO* empowers you to build resilient applications that handle errors gracefully and respond to failures locally and flexibly. 
+
+With its functional programming approach, *ZIO* enables rapid composition of solutions to complex problems using simple building blocks.
+
+
+### Architecture 
+
+![Schema architecture](/overall_architecture_scala.png)
+    
+This architecture provides a basic structure for a TODO Fullstack application, but keep in mind that specific implementation details and technologies may vary based on individual preferences, project requirements, and scalability considerations.
+
+
+The architecture consists of a frontend application and a backend built with ZIO and Scala.js. 
+The frontend application provides a user interface for managing TODOs, while the backend exposes an API to interact with the TODOs data.
+
+The frontend application, developed with Scala.js, benefits from the seamless integration with ZIO, enabling the use of reactive components and ensuring high-performance.
+
+
+### Gitter8
+
+### Frontend application
+
+### Backend application
+
+### 
+
+
+
+## Authors
+
+This project was written by the following:
+<br/>
+
+<a href="https://github.com/do4-2022/scala-fullstack-scaffold/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=do4-2022/scala-fullstack-scaffold" />
+</a>
+
+## How to start ?
+
+You can start to play with this project with the [Quick start](/quick_start).
