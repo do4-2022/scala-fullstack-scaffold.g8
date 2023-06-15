@@ -59,7 +59,17 @@ object TodoController {
       }
       case Method.PUT -> BasePath / id => {
         if (id.forall(_.isDigit)) {
-          ZIO.succeed(Response.text("TODO: update a todo by id"))
+          TodoService
+            .updateTodo(id.toInt)
+            .map(_.toJson)
+            .map(Response.text(_))
+            .orElse(
+              ZIO.succeed(
+                Response.fromHttpError(
+                  HttpError.NotFound(s"Todo with ID $id not found")
+                )
+              )
+            )
         } else {
           ZIO.succeed(Response.fromHttpError(HttpError.BadRequest()))
         }
