@@ -12,7 +12,7 @@ import org.mongodb.scala.bson.codecs.Macros._
 object DB {
   private val databaseURL: String =
     Option(System.getenv("MONGO_URL"))
-      .getOrElse("mongodb://username:password@localhost:27017")
+      .getOrElse("mongodb://root:root@localhost:27018")
 
   private val customCodecs: CodecRegistry =
     fromProviders(classOf[Todo])

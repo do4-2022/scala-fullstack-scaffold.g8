@@ -8,10 +8,6 @@ object TodoController {
 
   val BasePath = !! / "todos"
 
-  implicit val todoEncoder: JsonEncoder[Todo] = DeriveJsonEncoder.gen[Todo]
-  implicit val todosEncoder: JsonEncoder[List[Todo]] =
-    DeriveJsonEncoder.gen[List[Todo]]
-
   val routes: Http[Any, Nothing, Request, Response] =
     Http.collectZIO[Request] {
       case Method.GET -> BasePath => {
@@ -46,8 +42,20 @@ object TodoController {
           )
         }
       }
-      case Method.POST -> BasePath => {
-        ZIO.succeed(Response.text("TODO: create a todo"))
+      case req @ Method.POST -> BasePath => {
+        (for {
+          queryParams <- ZIO
+            .fromOption(Option(req.url.queryParams))
+            .orElseFail(HttpError.BadRequest("Missing query parameters"))
+          title <- ZIO
+            .fromOption(queryParams.get("title").collect(_.head))
+            .orElseFail(HttpError.BadRequest("Missing 'title' parameter"))
+          createdTodo <- TodoService.createTodo(title)
+        } yield createdTodo)
+          .fold(
+            error => Response.fromHttpError(HttpError.InternalServerError()),
+            todo => Response.text(todo.toJson)
+          )
       }
       case Method.PUT -> BasePath / id => {
         if (id.forall(_.isDigit)) {
