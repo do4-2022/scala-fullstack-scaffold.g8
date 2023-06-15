@@ -1,31 +1,125 @@
-# Quick Start
+---
+title: Getting started with Scala Fullstack Scaffold
+description: Ready to dive into a Scala Fullstack Architecture ? You are at the right place
+---
 
-```js filename="demo.js" {3} copy
-let a = 1;
+import { Callout } from "nextra-theme-docs";
+import { Steps } from "nextra-theme-docs";
 
-console.log(a);
+# Getting started
+
+This page will helps you to quickly start developing your Scala Fullstack application. 
+
+<Steps>
+
+### Install the required tools
+
+First, you need to have all the required tools to develop the application. 
+
+👉 Check the [requirement section](/requirements).
+
+
+### Build your project
+
+First, let's build your fullstack application 🏗️
+
+This scaffolding project allows
+To do so, you should launch the scaffolding application choice with [g8](https://www.foundweekends.org/giter8/usage.html):
+
+```bash
+g8 file://${PWD}/scala-fullstack-scaffold
+
 ```
 
-## Component
+It will outputs some Questions about the configuration of the application:
 
-import { useState } from 'react'
+```bash
+This a scaffolded app created with Gitter8 
 
-{/* Import CSS modules */}
-import styles from '../components/counters.module.css'
+name [My Fullstack App]: 
 
-export const Counter = () => {
-  const [count, setCount] = useState(0);
-  return (
-    <div>
-      <button onClick={() => setCount(count + 1)} className={styles.counter}>Clicked {count} times</button>
-    </div>
-  );
-};
+```
 
-<Counter/>
+You have to define:
+- A name for the project
+- A name for the Frontend
+- A name for the Backend
+- The SBT version used
+- The Database used (PostgresSQL/MongoDB)
 
-## External Component
+Once finished, a new folder `name [My Fullstack App]` will be created, containing the frontend and the backend applications.
 
-import Counters from '../components/counters'
+Here is the generated folder structure:
 
-<Counters />
+```
+<project_name>/
+├─ <frontend_name>/
+├─ <backend_name>/
+
+```
+
+Now that the project is setup, you will have to launch both application, let's start with the backend !
+
+### Launch the backend
+
+Copy the following command:
+
+```bash
+cd ./<backend-directory>
+sbt run 
+```
+
+### Launch the frontend
+
+```bash
+# Install dependencies
+npm install
+# Run the project in development
+npm run dev
+```
+
+Now, open your browser at the following [localhost:3000](http://localhost:3000) and see the magic happen 🌟.
+
+
+### Start coding !
+
+<Callout emoji="✅">
+   Congrats, you're all done for this tutorial !
+
+   You can now start building your own Application.
+</Callout>
+
+You are done with the setup, now you can performs some changes to see if everything is working as expected:
+
+Open the `header.scala` file and Change the title with `My Todo` :
+
+```scala filename="header.scala" {10} 
+package My_Fullstack_App_frontend.components
+import com.raquo.laminar.api.L.{given, *}
+import My_Fullstack_App_frontend.events.commandObserver
+import My_Fullstack_App_frontend.events.Reload
+
+// header of the app
+def header() = {
+  div(
+    cls("header"),
+    h1("Todo"),
+    errorMessage(),
+    div(
+      cls("top-bar"),
+      button(
+        "reload",
+        cls("reload"),
+        onClick.mapTo(Reload) --> commandObserver
+      )
+    ),
+    newTodoInput
+  )
+}
+
+```
+
+Save your file and open the Changes in your browser 🤩
+
+</Steps>
+
