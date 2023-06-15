@@ -12,7 +12,6 @@ lazy val root = (project in file(".")).settings(
     "dev.zio" %% "zio-sql-postgres" % "0.1.2",
     "dev.zio" %% "zio-streams" % "1.0.12",
     "dev.zio" %% "zio-interop-cats" % "3.1.1.0",
-    "org.mongodb.scala" %% "mongo-scala-driver" % "4.9.1",
-    "org.mongodb.scala" %% "mongo-scala-bson" % "4.9.1"
+    "org.postgresql" % "postgresql" % "42.2.16",
   )
 )
