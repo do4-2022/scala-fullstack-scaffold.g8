@@ -53,6 +53,11 @@ object TodoService {
   def deleteTodoById(id: Int): Task[Unit] =
     ZIO
       .fromFuture(_ => todosCollection.deleteOne(equal("id", id)).toFuture())
-      .unit
-
+      .flatMap { result =>
+        if (result.wasAcknowledged() && result.getDeletedCount == 0) {
+          ZIO.fail(new Exception("Todo not found"))
+        } else {
+          ZIO.unit
+        }
+      }
 }

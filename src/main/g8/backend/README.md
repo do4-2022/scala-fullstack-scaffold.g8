@@ -77,5 +77,5 @@ Deletes a todo task
 _Response example:_ a message confirming the deletion
 
 ```
-"Task 1 Deleted"
+Task 1 has been deleted
 ```

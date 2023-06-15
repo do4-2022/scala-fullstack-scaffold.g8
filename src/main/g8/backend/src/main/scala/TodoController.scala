@@ -78,7 +78,7 @@ object TodoController {
         if (id.forall(_.isDigit)) {
           TodoService
             .deleteTodoById(id.toInt)
-            .map(_ => Response.text(s"Task $id Deleted"))
+            .map(_ => Response.text(s"Task $id has been deleted"))
             .orElse(
               ZIO.succeed(
                 Response.fromHttpError(
