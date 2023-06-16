@@ -93,3 +93,13 @@ _Response example:_
 ```text
 Task 1 has been deleted
 ```
+
+### DELETE /todos/completed
+
+Deletes all completed todo tasks
+
+_Response example:_
+
+```text
+All completed tasks have been deleted
+```
