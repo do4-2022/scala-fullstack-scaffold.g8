@@ -23,7 +23,7 @@ First, you need to have all the required tools to develop the application.
 
 First, let's build your fullstack application 🏗️
 
-This scaffolding project allows
+This scaffolding project allows you to **customize** some value.
 To do so, you should launch the scaffolding application choice with [g8](https://www.foundweekends.org/giter8/usage.html):
 
 ```bash
@@ -40,12 +40,30 @@ name [My Fullstack App]:
 
 ```
 
-You have to define:
-- A name for the project
-- A name for the Frontend
-- A name for the Backend
-- The SBT version used
-- The Database used (PostgresSQL/MongoDB)
+#### Customization
+
+Subsequent questions permits to define: 
+
+- The name of the project   
+*The default value is `My Fullstack App`.*
+
+- The name of the Frontend application  
+*The default value is `My Fullstack App frontend`.*
+
+- The name of the Frontend application  
+*The default value is `My Fullstack App frontend`.*
+
+- The SBT version used  
+*The default value is `latest`.* You can use a semantic defined version.
+
+- The Database used
+```bash
+postgres=yes
+```
+<Callout type="info">
+By setting the value to `no`, a MongDB Database will be used instead.
+</Callout>
+
 
 Once finished, a new folder `name [My Fullstack App]` will be created, containing the frontend and the backend applications.
 
@@ -62,16 +80,17 @@ Now that the project is setup, you will have to launch both application, let's s
 
 ### Launch the backend
 
-Copy the following command:
+Run the following command:
 
 ```bash
-cd ./<backend-directory>
+cd ./backend
 sbt run 
 ```
 
 ### Launch the frontend
 
 ```bash
+cd ./frontend
 # Install dependencies
 npm install
 # Run the project in development
@@ -122,4 +141,6 @@ def header() = {
 Save your file and open the Changes in your browser 🤩
 
 </Steps>
+
+Now, to start play with, you should check how the backend works and how to modify it in [the next section](/going_further)
 

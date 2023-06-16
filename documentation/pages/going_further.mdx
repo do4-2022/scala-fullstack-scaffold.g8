@@ -1,0 +1,79 @@
+# Overview
+
+In this section, we will describe the backend architecture and see how to modify the CRUD.
+
+## File Presentation
+
+- **main.scala**: This file serves as the entry point of the application. It launches an HTTP server that listens on a specified port (or the default port 8080). The server is configured to use the routes defined in `TodoController.routes`.
+
+- **todo.scala**: This file defines the structure of a todo task, including its properties such as ID, title, and completion status. It also provides implementations for encoding and decoding todos to JSON. To create your own structure, you need to define the object as a case class. Don't forget to implement the JSON encoder.
+
+- **DB.scala**: This file handles the configuration and connection to the database. There are two versions: one for PostgreSQL and one for MongoDB. Environment variables are used to retrieve the database connection information. For PostgreSQL, a JDBC connection is established, while for MongoDB, a MongoDB client is created to interact with the database. You normally don't need to modify this file.
+
+- **TodoController.scala**: This file handles the HTTP routes for todo-related operations. It defines the CORS configuration and specifies the base path for the routes. The routes call the corresponding functions in `TodoService`.
+
+- **TodoService.scala**: This file contains the business logic for the application. It defines functions for interacting with the database, such as retrieving todos, creating a new todo, updating a todo, and deleting a todo.
+
+## Implementation
+
+### Route
+
+To implement a new route, follow the structure below:
+
+```scala
+case Method.GET -> BasePath => {
+  TodoService
+    .getTodos()
+    .map(_.toJson)
+    .map(Response.text(_))
+    .orElse(
+      ZIO.succeed(
+        Response.fromHttpError(
+          HttpError.NotFound("No todos found")
+        )
+      )
+    )
+}
+```
+
+The function corresponds to an HTTP GET route to fetch all todos.
+
+TodoService.getTodos() is called to retrieve all todo tasks from the database. This operation returns a ZIO effect encapsulating a sequence of tasks.
+
+Using the map method, the retrieved tasks are transformed into JSON using the implicit JSON encoder (see DB.scala). map is used again to create an HTTP response containing the JSON string.
+
+If the TodoService.getTodos() operation fails, the orElse block is executed. It returns an HTTP error response with the 404 (Not Found) status code and a message indicating that no todos were found.
+
+To implement your own route, you should follow the same general structure:
+
+1. Determine the path and associated HTTP method.
+2. Use ZIO operations to interact with data sources.
+3. Transform the obtained results into an appropriate HTTP response.
+4. Handle potential errors using ZIO combinators.
+
+## Service 
+
+```scala
+def createTodo(title: String): Task[Todo] =
+  for {
+    todos <- getTodos()
+    newId = todos.map(_.id).max + 1
+    newTodo = Todo(newId, title, false)
+    _ <- ZIO
+      .fromFuture(_ => todosCollection.insertOne(newTodo).toFuture())
+      .unit
+  } yield newTodo
+```
+
+The createTodo function is responsible for creating a new todo. It takes the title of the new task as a parameter.
+
+The function starts by calling getTodos() to retrieve all existing todos. This returns a ZIO effect encapsulating the sequence of current tasks. The sequence of tasks is then mapped to extract the maximum ID value. This ensures that the new ID will be unique.
+
+Using the provided title parameter, a new instance of the Todo structure is created with the completed status initialized to false.
+
+An effect ZIO is created using ZIO.fromFuture to execute an asynchronous operation. The insertion operation is performed using todosCollection.insertOne(newTodo).toFuture().
+
+To implement your own function, you can follow the structure and patterns used in the TodoService functions. The only limit is your imagination. 
+
+
+Once finished, you should check how to [deploy the application in production 🚀](/deploy)

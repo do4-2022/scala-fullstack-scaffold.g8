@@ -2,6 +2,8 @@
   "index": "Introduction",
   "requirements": "Requirements",
   "quick_start": "Quick Start",
+  "going_further": "Going further",
+  "deploy": "Deployment",
   "about": {
     "title": "About",
     "type": "page"

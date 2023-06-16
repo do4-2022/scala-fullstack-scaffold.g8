@@ -8,6 +8,9 @@ on:
 permissions:
   contents: write
 
+env:
+  ENVIRONMENT: production
+
 jobs:
   build:
     name: Build and deploy
