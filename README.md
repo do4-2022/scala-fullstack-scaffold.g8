@@ -11,32 +11,32 @@
   
 <!-- Badges -->
 <p>
-  <a href="https://github.com/do4-2022/scala-fullstack-scaffold/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/do4-2022/scala-fullstack-scaffold" alt="contributors" />
+  <a href="https://github.com/do4-2022/scala-fullstack-scaffold.g8/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/do4-2022/scala-fullstack-scaffold.g8" alt="contributors" />
   </a>
-  <a href="https://github.com/do4-2022/scala-fullstack-scaffold/commits/main">
-    <img src="https://img.shields.io/github/last-commit/do4-2022/scala-fullstack-scaffold" alt="last update" />
+  <a href="https://github.com/do4-2022/scala-fullstack-scaffold.g8/commits/main">
+    <img src="https://img.shields.io/github/last-commit/do4-2022/scala-fullstack-scaffold.g8" alt="last update" />
   </a>
-  <a href="https://github.com/do4-2022/scala-fullstack-scaffold/network/members">
-    <img src="https://img.shields.io/github/forks/do4-2022/scala-fullstack-scaffold" alt="forks" />
+  <a href="https://github.com/do4-2022/scala-fullstack-scaffold.g8/network/members">
+    <img src="https://img.shields.io/github/forks/do4-2022/scala-fullstack-scaffold.g8" alt="forks" />
   </a>
-  <a href="https://github.com/Louis3797/do4-2022/scala-fullstack-scaffold">
-    <img src="https://img.shields.io/github/stars/do4-2022/scala-fullstack-scaffold" alt="stars" />
+  <a href="https://github.com/Louis3797/do4-2022/scala-fullstack-scaffold.g8">
+    <img src="https://img.shields.io/github/stars/do4-2022/scala-fullstack-scaffold.g8" alt="stars" />
   </a>
-  <a href="https://github.com/do4-2022/scala-fullstack-scaffold/issues/">
-    <img src="https://img.shields.io/github/issues/do4-2022/scala-fullstack-scaffold" alt="open issues" />
+  <a href="https://github.com/do4-2022/scala-fullstack-scaffold.g8/issues/">
+    <img src="https://img.shields.io/github/issues/do4-2022/scala-fullstack-scaffold.g8" alt="open issues" />
   </a>
-  <a href="https://github.com/do4-2022/scala-fullstack-scaffold/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/do4-2022/scala-fullstack-scaffold.svg" alt="license" />
+  <a href="https://github.com/do4-2022/scala-fullstack-scaffold.g8/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/do4-2022/scala-fullstack-scaffold.g8.svg" alt="license" />
   </a>
 </p>
    
 <h4>
-    <a href="https://github.com/do4-2022/scala-fullstack-scaffold">Documentation</a>
+    <a href="https://github.com/do4-2022/scala-fullstack-scaffold.g8">Documentation</a>
   <span> · </span>
-    <a href="https://github.com/do4-2022/scala-fullstack-scaffold/issues/">Report Bug</a>
+    <a href="https://github.com/do4-2022/scala-fullstack-scaffold.g8/issues/">Report Bug</a>
   <span> · </span>
-    <a href="https://github.com/do4-2022/scala-fullstack-scaffold/issues/">Request Feature</a>
+    <a href="https://github.com/do4-2022/scala-fullstack-scaffold.g8/issues/">Request Feature</a>
   </h4>
 </div>
 
@@ -76,8 +76,9 @@ Scala Fullstack Scaffold is a projects aims to start quickly a Frontend and a Ba
 <!-- Prerequisites -->
 ### :bangbang: Prerequisites
 
-- [Scala >3](https://scala-lang.org/download/3.3.0.html) for the Backend
-- [Node 18](https://nodejs.org/dist/v18.16.0/node-v18.16.0-linux-x64.tar.xz) for the Frontend application and the documentation
+- [Scala >= 2](https://scala-lang.org/download/3.3.0.html) for the Backend
+- [Scala >= 3](https://scala-lang.org/download/3.3.0.html) for the Frontend
+- [Node.JS 18](https://nodejs.org/dist/v18.16.0/node-v18.16.0-linux-x64.tar.xz) for the Frontend application and the documentation
 
 ```bash
 # Install Scala 3.3.0
@@ -94,7 +95,7 @@ curl https://nodejs.org/dist/v18.16.0/node-v18.16.0-linux-x64.tar.xz -sSf | sh
 Clone the project
 
 ```bash
-  git clone https://github.com/do4-2022/scala-fullstack-scaffold.git
+  git clone https://github.com/do4-2022/scala-fullstack-scaffold.g8.git
 ```
 
 Go to the project directory
@@ -138,8 +139,8 @@ Build This Fullstack with NPM
 <!-- Contributing -->
 ## :wave: Contributing
 
-<a href="https://github.com/do4-2022/scala-fullstack-scaffold/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=do4-2022/scala-fullstack-scaffold" />
+<a href="https://github.com/do4-2022/scala-fullstack-scaffold.g8/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=do4-2022/scala-fullstack-scaffold.g8" />
 </a>
 
 Contributions are always welcome!
@@ -161,4 +162,4 @@ This project was developed by some DO students at Polytech Montpellier in June 2
 - [Maxime Pizzolito](https://github.com/Maxtho8)(Backend)
 - [Arsène Fougerouse](https://github.com/GridexX)(Documentation)
 
-Project Link: [https://github.com/do4-2022/scala-fullstack-scaffold](https://github.com/do4-2022/scala-fullstack-scaffold)
+Project Link: [https://github.com/do4-2022/scala-fullstack-scaffold.g8](https://github.com/do4-2022/scala-fullstack-scaffold.g8)

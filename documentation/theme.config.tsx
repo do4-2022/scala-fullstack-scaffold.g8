@@ -14,7 +14,7 @@ function Logo() {
       <img
         style={{ borderRadius: '5px', marginRight: '10px' }}
         width={50}
-        src='/scaffold_logo.png'
+        src='./scaffold_logo.png'
       ></img>
       <h1 style={{ fontWeight: 'bold', color: "#F76E57" }}>Scala Fullstack Scaffold</h1>
     </div>
@@ -36,7 +36,7 @@ function ProjectStars() {
   const [stars, setStars] = useState(0);
 
   useEffect(() => {
-    fetch('https://api.github.com/repos/do4-2022/scala-fullstack-scaffold')
+    fetch('https://api.github.com/repos/do4-2022/scala-fullstack-scaffold.g8')
       .then(response => response.json())
       .then(data => setStars(data.stargazers_count));
   }, []);
@@ -48,7 +48,7 @@ function ProjectStars() {
       justifyContent: 'center',
       alignItems: 'center',
     }}
-      href="https://github.com/do4-2022/scala-fullstack-scaffold"
+      href="https://github.com/do4-2022/scala-fullstack-scaffold.g8"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -82,12 +82,12 @@ function ProjectStars() {
 const config: DocsThemeConfig = {
   logo: <Logo/>,
   project: {
-    link: 'https://github.com/do4-2022/scala-fullstack-scaffold',
+    link: 'https://github.com/do4-2022/scala-fullstack-scaffold.g8',
   },
   banner: {
     text: (
       <a
-        href='https://github.com/do4-2022/scala-fullstack-scaffold/issues/new?title=Feedback%20for%20%E2%80%9Cscala-fullstack-scaffold%E2%80%9D&labels=feedback'
+        href='https://github.com/do4-2022/scala-fullstack-scaffold.g8/issues/new?title=Feedback%20for%20%E2%80%9Cscala-fullstack-scaffold%E2%80%9D&labels=feedback'
         target='_blank'
       >
         <strong>Scala Fullstack Scaffold's documentation is under construction.</strong> Give us
@@ -98,7 +98,7 @@ const config: DocsThemeConfig = {
   navbar: {
     extraContent: <ProjectStars/>
   },
-  docsRepositoryBase: 'https://github.com/do4-2022/scala-fullstack-scaffold',
+  docsRepositoryBase: 'https://github.com/do4-2022/scala-fullstack-scaffold.g8',
   editLink: {
     text: 'Edit this page on GitHub →',
   },

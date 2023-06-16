@@ -3,11 +3,12 @@ const withNextra = require('nextra')({
   themeConfig: './theme.config.tsx',
   defaultShowCopyCode: true,
 })
+const isInProduction = process.env.ENVIRONMENT === 'production'
 
 module.exports = {
   ...withNextra(),
   images: {
     unoptimized: true,
   },
-  basePath: "/scala-fullstack-scaffold.g8"
+  basePath: isInProduction ? "/scala-fullstack-scaffold.g8" : undefined
 };
