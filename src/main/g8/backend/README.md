@@ -56,7 +56,21 @@ _Response example:_
 }
 ```
 
-### PUT /todos/:id
+### PUT /todos/:id?title=string
+
+Updates a todo task by changing the title field
+
+_Response example:_
+
+```json
+{
+  "id": 1,
+  "title": "Todo 1",
+  "completed": false
+}
+```
+
+### POST /todos/:id/completed
 
 Updates a todo task by changing the completed status
 
@@ -74,8 +88,8 @@ _Response example:_
 
 Deletes a todo task
 
-_Response example:_ a message confirming the deletion
+_Response example:_
 
-```
+```text
 Task 1 has been deleted
 ```

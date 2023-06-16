@@ -72,7 +72,7 @@ object TodoController {
             todo => Response.text(todo.toJson)
           )
       }
-      case Method.PUT -> BasePath / id / "completed" => {
+      case Method.POST -> BasePath / id / "completed" => {
         if (id.forall(_.isDigit)) {
           TodoService
             .updateTodoCompletedField(id.toInt)
