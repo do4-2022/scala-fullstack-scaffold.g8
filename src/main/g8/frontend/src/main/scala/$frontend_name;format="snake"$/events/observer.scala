@@ -6,7 +6,7 @@ import scala.util.{Success, Failure}
 import $frontend_name;format="snake"$.api.todos.{
   getTodos,
   createTodo,
-  setTodo,
+  setTodoTitle,
   deleteTodo,
   toggleCompleted
 }
@@ -49,7 +49,7 @@ private def handleCommand(command: Command): Unit = {
     case UpdateText(itemId, title) =>
       val item = itemsVar.now().find(_.id == itemId).get
 
-      setTodo(
+      setTodoTitle(
          itemId,  title
       ).onComplete {
         case Success(returnedItem) =>
