@@ -1,0 +1,36 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  $if(postgres.truthy)$
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - postgres_data_todo_app:/var/lib/postgresql/data
+  $else$
+  mongo:
+    image: mongo
+    ports:
+      - 27018:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=todo_app
+    volumes:
+      - mongodb_data_todo_app:/data/db
+  $endif$
+
+$if(postgres.truthy)$
+volumes:
+  postgres_data_todo_app:
+$else$
+volumes:
+  mongodb_data_todo_app:
+$endif$
+
