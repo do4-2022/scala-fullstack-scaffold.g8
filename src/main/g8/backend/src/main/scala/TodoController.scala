@@ -32,7 +32,7 @@ object TodoController {
             .orElse(
               ZIO.succeed(
                 Response.fromHttpError(
-                  HttpError.NotFound(s"Todo with ID $id not found")
+                  HttpError.NotFound(s"Todo with ID \$id not found")
                 )
               )
             )
@@ -71,7 +71,7 @@ object TodoController {
             .orElse(
               ZIO.succeed(
                 Response.fromHttpError(
-                  HttpError.NotFound(s"Todo with ID $id not found")
+                  HttpError.NotFound(s"Todo with ID \$id not found")
                 )
               )
             )
@@ -88,7 +88,7 @@ object TodoController {
           .orElse(
             ZIO.succeed(
               Response.fromHttpError(
-                HttpError.NotFound(s"Todo with ID $id not found")
+                HttpError.NotFound(s"Todo with ID \$id not found")
               )
             )
           )
@@ -100,11 +100,11 @@ object TodoController {
         if (id.forall(_.isDigit)) {
           TodoService
             .deleteTodoById(id.toInt)
-            .map(_ => Response.text(s"Todo with ID $id has been deleted"))
+            .map(_ => Response.text(s"Todo with ID \$id has been deleted"))
             .orElse(
               ZIO.succeed(
                 Response.fromHttpError(
-                  HttpError.NotFound(s"Todo with ID $id not found")
+                  HttpError.NotFound(s"Todo with ID \$id not found")
                 )
               )
             )

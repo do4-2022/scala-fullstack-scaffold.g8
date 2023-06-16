@@ -32,7 +32,7 @@ object TodoService {
     for {
       conn <- DB.connection
       statement <- ZIO.succeed(conn.createStatement())
-      resultSet <- ZIO.succeed(statement.executeQuery(s"SELECT * FROM todos WHERE id = $id"))
+      resultSet <- ZIO.succeed(statement.executeQuery(s"SELECT * FROM todos WHERE id = \$id"))
       todos <- ZIO.succeed(readTodosFromResultSet(resultSet))
     } yield todos.headOption
 
@@ -41,7 +41,7 @@ object TodoService {
     for {
       conn <- DB.connection
       statement <- ZIO.succeed(conn.createStatement())
-      resultSet <- ZIO.succeed(statement.executeQuery(s"INSERT INTO todos (title, completed) VALUES ('$title', false) RETURNING *"))
+      resultSet <- ZIO.succeed(statement.executeQuery(s"INSERT INTO todos (title, completed) VALUES ('\$title', false) RETURNING *"))
       todos <- ZIO.succeed(readTodosFromResultSet(resultSet))
     } yield todos.headOption
 
@@ -49,7 +49,7 @@ object TodoService {
     for {
       conn <- DB.connection
       statement <- ZIO.succeed(conn.createStatement())
-      resultSet <- ZIO.succeed(statement.executeQuery(s"UPDATE todos SET title = ${todo} WHERE id = $todoId RETURNING *"))
+      resultSet <- ZIO.succeed(statement.executeQuery(s"UPDATE todos SET title = \${todo} WHERE id = \$todoId RETURNING *"))
       todos <- ZIO.succeed(readTodosFromResultSet(resultSet))
     } yield todos.head
 
@@ -57,7 +57,7 @@ object TodoService {
     for {
       conn <- DB.connection
       statement <- ZIO.succeed(conn.createStatement())
-      resultSet <- ZIO.succeed(statement.executeQuery(s"UPDATE todos SET completed = NOT completed WHERE id = $todoId RETURNING *"))
+      resultSet <- ZIO.succeed(statement.executeQuery(s"UPDATE todos SET completed = NOT completed WHERE id = \$todoId RETURNING *"))
       todos <- ZIO.succeed(readTodosFromResultSet(resultSet))
     } yield todos.head
 
@@ -65,7 +65,7 @@ object TodoService {
     for {
       conn <- DB.connection
       statement <- ZIO.succeed(conn.createStatement())
-      _ <- ZIO.succeed(statement.executeUpdate(s"DELETE FROM todos WHERE id = $id"))
+      _ <- ZIO.succeed(statement.executeUpdate(s"DELETE FROM todos WHERE id = \$id"))
     } yield ()
 
 }
@@ -112,7 +112,7 @@ object TodoService {
             .map(_ => updated)
         case None =>
           ZIO.fail(
-            new NoSuchElementException(s"Todo with ID $todoId not found")
+            new NoSuchElementException(s"Todo with ID \$todoId not found")
           )
       }
     } yield updatedTodo
@@ -135,7 +135,7 @@ object TodoService {
             .map(_ => updated)
         case None =>
           ZIO.fail(
-            new NoSuchElementException(s"Todo with ID $todoId not found")
+            new NoSuchElementException(s"Todo with ID \$todoId not found")
           )
       }
     } yield updatedTodo
