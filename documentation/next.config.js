@@ -9,8 +9,5 @@ module.exports = {
   images: {
     unoptimized: true,
   },
-  reactStrictMode: true,
-  swcMinify: true,
-  trailingSlash: true,
-  distDir: "dist",
+  basePath: "/scala-fullstack-scaffold.g8"
 };
