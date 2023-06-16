@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y xz-utils
 RUN tar -xf node-v18.16.0-linux-x64.tar.xz
 RUN mv node-v18.16.0-linux-x64 /opt/node
 
-ENV PATH="/opt/node/bin:${PATH}"
+ENV PATH="/opt/node/bin:\${PATH}"
 
 
 WORKDIR /app
