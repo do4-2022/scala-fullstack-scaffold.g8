@@ -17,12 +17,8 @@ def createTodo(item: TodoItem): Future[TodoItem] = {
 
   val paramsString = params.toString()
 
-  val headers = new Headers()
-  headers.append("Content-Type", "application/json")
   val options = js.Dynamic.literal(
     method = "POST",
-    headers = headers,
-    body = item.asJson.noSpaces
   )
 
   val requestInit =
