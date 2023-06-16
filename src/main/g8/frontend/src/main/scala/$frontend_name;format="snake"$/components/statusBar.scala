@@ -2,7 +2,7 @@ package $frontend_name;format="snake"$.components
 import com.raquo.laminar.api.L.{given, *}
 
 import $frontend_name;format="snake"$.state.{ShowCompleted, itemsVar, filters}
-import $frontend_name;format="snake"$.events.{DeleteCompleted, commandObserver}
+import $frontend_name;format="snake"$.events.commandObserver
 
 def statusBar =
   footerTag(

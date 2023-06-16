@@ -8,7 +8,6 @@ import $frontend_name;format="snake"$.api.todos.{
   createTodo,
   setTodo,
   deleteTodo,
-  deleteCompletedTodos,
   toggleCompleted
 }
 import $frontend_name;format="snake"$.state.{itemsVar, filterVar}
