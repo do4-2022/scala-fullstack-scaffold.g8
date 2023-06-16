@@ -49,7 +49,7 @@ object TodoService {
     for {
       conn <- DB.connection
       statement <- ZIO.succeed(conn.createStatement())
-      resultSet <- ZIO.succeed(statement.executeQuery(s"UPDATE todos SET title = \${todo} WHERE id = \$todoId RETURNING *"))
+      resultSet <- ZIO.succeed(statement.executeQuery(s"UPDATE todos SET title = '\${todo}' WHERE id = \$todoId RETURNING *"))
       todos <- ZIO.succeed(readTodosFromResultSet(resultSet))
     } yield todos.head
 
