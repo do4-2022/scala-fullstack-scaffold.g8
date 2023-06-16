@@ -23,7 +23,7 @@ def setTodo(item: TodoItem): Future[TodoItem] = {
   val requestInit =
     options.asInstanceOf[RequestInit]
 
-  fetch(s"\${API_URL}/api/todos/\${item.id}?\${paramsString}", requestInit)
+  fetch(s"\${API_URL}/todos/\${item.id}?\${paramsString}", requestInit)
     .flatMap(_.text().toFuture)
     .flatMap(json => {
       decode[TodoItem](json) match {

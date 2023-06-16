@@ -18,7 +18,7 @@ def toggleCompleted(itemId : Int): Future[TodoItem] = {
   val requestInit =
     options.asInstanceOf[RequestInit]
 
-  fetch(s"\${API_URL}/api/todos/\${itemId}/completed", requestInit)
+  fetch(s"\${API_URL}/todos/\${itemId}/completed", requestInit)
     .flatMap(_.text().toFuture)
     .flatMap(json => {
       decode[TodoItem](json) match {

@@ -10,7 +10,7 @@ import $frontend_name;format="snake"$.state.TodoItem
 import $frontend_name;format="snake"$.api.API_URL
 
 def getTodos(): Future[List[TodoItem]] = {
-  fetch(s"\${API_URL}/api/todos")
+  fetch(s"\${API_URL}/todos")
     .flatMap(_.text().toFuture)
     .flatMap(json => {
       decode[List[TodoItem]](json) match {

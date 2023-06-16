@@ -24,7 +24,7 @@ def createTodo(item: TodoItem): Future[TodoItem] = {
   val requestInit =
     options.asInstanceOf[RequestInit]
 
-  fetch(s"\${API_URL}/api/todos?\${paramsString}", requestInit)
+  fetch(s"\${API_URL}/todos?\${paramsString}", requestInit)
     .flatMap(_.text().toFuture)
     .flatMap(json => {
       decode[TodoItem](json) match {

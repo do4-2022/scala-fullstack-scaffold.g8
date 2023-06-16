@@ -17,6 +17,6 @@ def deleteCompletedTodos(): Future[String] = {
   val requestInit =
     options.asInstanceOf[RequestInit]
 
-  fetch(s"\${API_URL}/api/todos/completed", requestInit)
+  fetch(s"\${API_URL}/todos/completed", requestInit)
     .flatMap(_.text().toFuture)
 }
