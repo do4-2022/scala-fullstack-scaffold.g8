@@ -7,11 +7,7 @@ import zio.json._
 object TodoController {
 
   val BasePath = !! / "todos"
-
-  implicit val todoEncoder: JsonEncoder[Todo] = DeriveJsonEncoder.gen[Todo]
-  implicit val todosEncoder: JsonEncoder[List[Todo]] =
-    DeriveJsonEncoder.gen[List[Todo]]
-
+  
   val routes: Http[Any, Nothing, Request, Response] =
     Http.collectZIO[Request] {
       case Method.GET -> BasePath => {
