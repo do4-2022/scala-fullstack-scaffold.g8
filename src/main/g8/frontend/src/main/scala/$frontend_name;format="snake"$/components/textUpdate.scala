@@ -12,7 +12,7 @@ def textUpdateInput(
 ) =
   input(
     cls("edit"),
-    defaultValue <-- itemSignal.map(_.text),
+    defaultValue <-- itemSignal.map(_.title),
     onMountFocus,
     onEnterPress.mapToValue.map(UpdateText(itemId, _)) --> updateTextObserver,
     onBlur.mapToValue.map(UpdateText(itemId, _)) --> updateTextObserver

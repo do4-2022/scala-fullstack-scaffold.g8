@@ -38,7 +38,7 @@ private def handleCommand(command: Command): Unit = {
         filterVar.set(ShowAll)
 
       createTodo(
-        TodoItem(id = lastId, text = itemText, completed = false)
+        TodoItem(id = lastId, title = itemText, completed = false)
       ).onComplete {
         case Success(item) =>
           itemsVar.update(_ :+ item)
@@ -46,11 +46,11 @@ private def handleCommand(command: Command): Unit = {
           errorVar.set(s"Failed to create todo : \$exception")
       }
 
-    case UpdateText(itemId, text) =>
+    case UpdateText(itemId, title) =>
       val item = itemsVar.now().find(_.id == itemId).get
 
       setTodo(
-        TodoItem(id = itemId, text = text, item.completed)
+        TodoItem(id = itemId, title = title, item.completed)
       ).onComplete {
         case Success(returnedItem) =>
           itemsVar.update(

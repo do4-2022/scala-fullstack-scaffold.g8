@@ -10,18 +10,21 @@ import io.circe._, io.circe.generic.auto._, io.circe.parser._, io.circe.syntax._
 import $frontend_name;format="snake"$.state.TodoItem
 import $frontend_name;format="snake"$.api.API_URL
 
-def setTodo(item: TodoItem): Future[TodoItem] = {
-  val headers = new Headers()
-  headers.append("Content-Type", "application/json")
+def createTodo(item: TodoItem): Future[TodoItem] = {
+
+  val params = new URLSearchParams()
+  params.append("title", item.title)
+
+  val paramsString = params.toString()
+
   val options = js.Dynamic.literal(
-    method = "PUT",
-    headers = headers,
-    body = item.asJson.noSpaces
+    method = "POST",
   )
+
   val requestInit =
     options.asInstanceOf[RequestInit]
 
-  fetch(s"\${API_URL}/api/todos/\${item.id}", requestInit)
+  fetch(s"\${API_URL}/todos?\${paramsString}", requestInit)
     .flatMap(_.text().toFuture)
     .flatMap(json => {
       decode[TodoItem](json) match {

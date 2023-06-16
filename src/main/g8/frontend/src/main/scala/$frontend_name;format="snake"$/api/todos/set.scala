@@ -10,19 +10,25 @@ import io.circe._, io.circe.generic.auto._, io.circe.parser._, io.circe.syntax._
 import $frontend_name;format="snake"$.state.TodoItem
 import $frontend_name;format="snake"$.api.API_URL
 
-def deleteCompletedTodos(): Future[List[TodoItem]] = {
+def setTodo(item: TodoItem): Future[TodoItem] = {
+
+  val params = new URLSearchParams()
+  params.append("title", item.title)
+
+  val paramsString = params.toString()
+
   val options = js.Dynamic.literal(
-    method = "DELETE"
+    method = "PUT",
   )
   val requestInit =
     options.asInstanceOf[RequestInit]
 
-  fetch(s"\${API_URL}/api/todos/completed", requestInit)
+  fetch(s"\${API_URL}/todos/\${item.id}?\${paramsString}", requestInit)
     .flatMap(_.text().toFuture)
     .flatMap(json => {
-      decode[List[TodoItem]](json) match {
-        case Right(value: List[TodoItem]) => Future.successful(value)
-        case Left(error)                  => Future.failed(error)
+      decode[TodoItem](json) match {
+        case Right(value: TodoItem) => Future.successful(value)
+        case Left(error)            => Future.failed(error)
       }
     })
 }

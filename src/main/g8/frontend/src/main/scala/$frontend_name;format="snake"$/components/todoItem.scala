@@ -30,7 +30,7 @@ def todoItem(
       case false =>
         List(
           checkboxInput(itemId, itemSignal),
-          label(child.text <-- itemSignal.map(_.text)),
+          label(child.text <-- itemSignal.map(_.title)),
           button(
             cls("destroy"),
             onClick.mapTo(Delete(itemId)) --> commandObserver
