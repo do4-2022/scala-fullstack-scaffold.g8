@@ -89,6 +89,18 @@ object TodoController {
           ZIO.succeed(Response.fromHttpError(HttpError.BadRequest()))
         }
       }
+      case Method.DELETE -> BasePath / "completed" => {
+        TodoService
+          .deleteCompletedTodo()
+          .map(_ => Response.text("All completed tasks have been deleted"))
+          .orElse(
+            ZIO.succeed(
+              Response.fromHttpError(
+                HttpError.InternalServerError("Error deleting completed tasks")
+              )
+            )
+          )
+      }
       case Method.DELETE -> BasePath / id => {
         if (id.forall(_.isDigit)) {
           TodoService

@@ -80,4 +80,17 @@ object TodoService {
           ZIO.unit
         }
       }
+
+  def deleteCompletedTodo(): Task[Unit] =
+    ZIO
+      .fromFuture(_ =>
+        todosCollection.deleteMany(equal("completed", true)).toFuture()
+      )
+      .flatMap { result =>
+        if (result.wasAcknowledged() && result.getDeletedCount == 0) {
+          ZIO.fail(new Exception("No todo deleted"))
+        } else {
+          ZIO.unit
+        }
+      }
 }
