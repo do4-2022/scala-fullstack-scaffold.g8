@@ -18,17 +18,6 @@ def statusBar =
       cls("filters"),
       filters.map(filter => li(filterButton(filter)))
     ),
-    child.maybe <-- itemsVar.signal.map { items =>
-      if (items.exists(ShowCompleted.passes))
-        Some(
-          button(
-            cls("clear-completed"),
-            "Clear completed",
-            onClick.map(_ => DeleteCompleted) --> commandObserver
-          )
-        )
-      else None
-    }
   )
 
 def pluralize(num: Int, singular: String, plural: String): String =

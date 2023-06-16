@@ -10,10 +10,10 @@ import io.circe._, io.circe.generic.auto._, io.circe.parser._, io.circe.syntax._
 import $frontend_name;format="snake"$.state.TodoItem
 import $frontend_name;format="snake"$.api.API_URL
 
-def setTodo(item: TodoItem): Future[TodoItem] = {
+def setTodoTitle(itemId: Int, itemTitle : String): Future[TodoItem] = {
 
   val params = new URLSearchParams()
-  params.append("title", item.title)
+  params.append("title", itemTitle)
 
   val paramsString = params.toString()
 
@@ -23,7 +23,7 @@ def setTodo(item: TodoItem): Future[TodoItem] = {
   val requestInit =
     options.asInstanceOf[RequestInit]
 
-  fetch(s"\${API_URL}/todos/\${item.id}?\${paramsString}", requestInit)
+  fetch(s"\${API_URL}/todos/\${itemId}?\${paramsString}", requestInit)
     .flatMap(_.text().toFuture)
     .flatMap(json => {
       decode[TodoItem](json) match {

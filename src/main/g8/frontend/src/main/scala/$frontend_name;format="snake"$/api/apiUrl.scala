@@ -7,6 +7,6 @@ val API_URL = {
   if (env_api_url != null) {
     env_api_url.asInstanceOf[String]
   } else {
-    "http://localhost:3000"
+    "http://localhost:8080"
   }
 }

@@ -8,7 +8,8 @@ import $frontend_name;format="snake"$.api.todos.{
   createTodo,
   setTodo,
   deleteTodo,
-  deleteCompletedTodos
+  deleteCompletedTodos,
+  toggleCompleted
 }
 import $frontend_name;format="snake"$.state.{itemsVar, filterVar}
 import $frontend_name;format="snake"$.state.{TodoItem, Filter, ShowCompleted, ShowAll}
@@ -50,7 +51,7 @@ private def handleCommand(command: Command): Unit = {
       val item = itemsVar.now().find(_.id == itemId).get
 
       setTodo(
-        TodoItem(id = itemId, title = title, item.completed)
+         itemId,  title
       ).onComplete {
         case Success(returnedItem) =>
           itemsVar.update(
@@ -65,8 +66,8 @@ private def handleCommand(command: Command): Unit = {
     case UpdateCompleted(itemId, completed) =>
       val item = itemsVar.now().find(_.id == itemId).get
 
-      setTodo(
-        item.copy(completed = completed)
+      toggleCompleted(
+        itemId
       ).onComplete {
         case Success(returnedItem) =>
           itemsVar.update(
@@ -86,14 +87,6 @@ private def handleCommand(command: Command): Unit = {
           itemsVar.update(_.filterNot(_.id == itemId))
         case Failure(exception) =>
           errorVar.set(s"Failed to delete todo: \$exception")
-      }
-
-    case DeleteCompleted =>
-      deleteCompletedTodos().onComplete {
-        case Success(_) =>
-          itemsVar.update(_.filterNot(_.completed))
-        case Failure(exception) =>
-          errorVar.set(s"Failed to delete completed todos: \$exception")
       }
   }
 }
