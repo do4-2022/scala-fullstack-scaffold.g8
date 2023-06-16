@@ -12,6 +12,11 @@ import $frontend_name;format="snake"$.api.API_URL
 
 def createTodo(item: TodoItem): Future[TodoItem] = {
 
+  val params = new URLSearchParams()
+  params.append("title", item.title)
+
+  val paramsString = params.toString()
+
   val headers = new Headers()
   headers.append("Content-Type", "application/json")
   val options = js.Dynamic.literal(
@@ -19,10 +24,11 @@ def createTodo(item: TodoItem): Future[TodoItem] = {
     headers = headers,
     body = item.asJson.noSpaces
   )
+
   val requestInit =
     options.asInstanceOf[RequestInit]
 
-  fetch(s"\${API_URL}/api/todos", requestInit)
+  fetch(s"\${API_URL}/api/todos?\${paramsString}", requestInit)
     .flatMap(_.text().toFuture)
     .flatMap(json => {
       decode[TodoItem](json) match {
