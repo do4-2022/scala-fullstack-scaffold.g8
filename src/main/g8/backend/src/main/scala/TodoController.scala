@@ -3,8 +3,20 @@ package todo
 import zio._
 import zio.http._
 import zio.json._
+import zio.http.Header.{AccessControlAllowMethods, AccessControlAllowOrigin, Origin}
+import zio.http.HttpAppMiddleware.cors
+import zio.http.internal.middlewares.Cors.CorsConfig
 
 object TodoController {
+
+  val config: CorsConfig =
+    CorsConfig(
+    allowedOrigin = {
+      case origin@Origin.Value(_, host, _) if host == "dev" => Some(AccessControlAllowOrigin.Specific(origin))
+      case _ => Some(AccessControlAllowOrigin.All) // Allow any origin by setting Access-Control-Allow-Origin to *
+    },
+      allowedMethods = AccessControlAllowMethods(Method.PUT, Method.DELETE, Method.POST, Method.GET),
+    )
 
   val BasePath = !! / "todos"
   
@@ -112,5 +124,5 @@ object TodoController {
           ZIO.succeed(Response.fromHttpError(HttpError.BadRequest()))
         }
       }
-    }
+    } @@ cors(config)
 }
