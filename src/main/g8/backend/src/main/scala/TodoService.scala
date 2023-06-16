@@ -27,7 +27,27 @@ object TodoService {
         .unit
     } yield newTodo
 
-  def updateTodo(todoId: Int): Task[Todo] =
+  def updateTodoTitleField(todoId: Int, title: String): Task[Todo] =
+    for {
+      taskToChange <- getTodoById(todoId)
+      updatedTodo <- taskToChange match {
+        case Some(todo) =>
+          val updated = todo.copy(title = title)
+          ZIO
+            .fromFuture(_ =>
+              todosCollection
+                .updateOne(equal("id", todoId), set("title", updated.title))
+                .toFuture()
+            )
+            .map(_ => updated)
+        case None =>
+          ZIO.fail(
+            new NoSuchElementException(s"Todo with ID $todoId not found")
+          )
+      }
+    } yield updatedTodo
+
+  def updateTodoCompletedField(todoId: Int): Task[Todo] =
     for {
       taskToChange <- getTodoById(todoId)
       updatedTodo <- taskToChange match {

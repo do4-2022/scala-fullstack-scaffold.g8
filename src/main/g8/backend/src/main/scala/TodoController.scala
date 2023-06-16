@@ -57,10 +57,25 @@ object TodoController {
             todo => Response.text(todo.toJson)
           )
       }
-      case Method.PUT -> BasePath / id => {
+      case req @ Method.PUT -> BasePath / id => {
+        (for {
+          queryParams <- ZIO
+            .fromOption(Option(req.url.queryParams))
+            .orElseFail(HttpError.BadRequest("Missing query parameters"))
+          title <- ZIO
+            .fromOption(queryParams.get("title").collect(_.head))
+            .orElseFail(HttpError.BadRequest("Missing 'title' parameter"))
+          updatedTodo <- TodoService.updateTodoTitleField(id.toInt, title)
+        } yield updatedTodo)
+          .fold(
+            error => Response.fromHttpError(HttpError.InternalServerError()),
+            todo => Response.text(todo.toJson)
+          )
+      }
+      case Method.PUT -> BasePath / id / "completed" => {
         if (id.forall(_.isDigit)) {
           TodoService
-            .updateTodo(id.toInt)
+            .updateTodoCompletedField(id.toInt)
             .map(_.toJson)
             .map(Response.text(_))
             .orElse(
